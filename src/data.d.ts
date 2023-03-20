@@ -15,4 +15,6 @@ export interface Info  {
     rating: string
     ratingNum: string
     tag: string
+    posterUrl: string
+    trailerUrl: string
 }

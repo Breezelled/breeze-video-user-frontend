@@ -24,7 +24,7 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header/>
-      <main>
+      <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
         <Banner banner={banner}/>
         <section>
             {/*  Row  */}
@@ -39,22 +39,22 @@ export default function Home({
 export const getServerSideProps = async () => {
     const [
         banner,
-        topRated,
-        actionMovies,
-        comedyMovies,
+        // topRated,
+        // actionMovies,
+        // comedyMovies,
     ] = await Promise.all([
         fetch(requests.fetchBanner).then((res) => res.json()),
-        fetch(requests.fetchTopRated).then((res) => res.json()),
-        fetch(requests.fetchActionMovies).then((res) => res.json()),
-        fetch(requests.fetchComedyMovies).then((res) => res.json()),
+        // fetch(requests.fetchTopRated).then((res) => res.json()),
+        // fetch(requests.fetchActionMovies).then((res) => res.json()),
+        // fetch(requests.fetchComedyMovies).then((res) => res.json()),
     ])
 
     return {
         props: {
-            banner: banner.results,
-            topRated: topRated.results,
-            actionMovies: actionMovies.results,
-            comedyMovies: comedyMovies.results,
+            banner: banner.data,
+            // topRated: topRated.data,
+            // actionMovies: actionMovies.data,
+            // comedyMovies: comedyMovies.data,
         }
     }
 }
