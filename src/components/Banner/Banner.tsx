@@ -17,10 +17,11 @@ function Banner({banner}: Props) {
         <div className="flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] lg:justify-end
         lg:pb-12">
             <div className="absolute top-0 left-0 -z-10 h-[95vh] w-screen">
-                <Image src={`${BASE_URL}/s3/${video?.posterUrl}`}
-                       layout="fill"
-                       objectFit="cover"
-                       objectPosition="50% 20%"
+                <Image className="object-cover" src={`${BASE_URL}/s3/${video?.posterUrl}`}
+                       style={{objectPosition:"50% 20%"}}
+                       fill
+                       placeholder="blur"
+                       blurDataURL={`${BASE_URL}/s3/${video?.posterUrl}`}
                        alt=""/>
             </div>
             <h1 className="font-bold text-2xl md:text-4xl lg:text-7xl">

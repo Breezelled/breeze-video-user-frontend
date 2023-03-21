@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from "@/components/Header";
 
 function Avatar() {
     const [loading, setLoading] = useState(true);

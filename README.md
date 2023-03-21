@@ -19,7 +19,7 @@ and it can provide visualized data analysis for administrators.
 
 ## Before getting started
 
-- node.js env
+- node.js 14.0.0+ env
 
 ## Installation
 
@@ -41,6 +41,6 @@ npm install
 - [Next.js](https://github.com/vercel/next.js)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
 
-## 作者
+## Author
 
 Contact [Breeze](mailto:br33z3Chen@gmail.com)
