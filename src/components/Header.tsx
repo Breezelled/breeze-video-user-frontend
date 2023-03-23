@@ -27,6 +27,7 @@ function Header() {
                      width={100}
                      height={100}
                      className="cursor-container object-contain"
+                     alt=""
                 />
                 <ul className="hidden space-x-4 md:flex">
                     <li className="headerLink">Home</li>

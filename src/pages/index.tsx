@@ -38,7 +38,7 @@ export default function Home({
 }
 
 // server side rendering
-export const getServerSideProps = async () => {
+export async function getServerSideProps()  {
     const [
         banner,
         topRated,

@@ -20,8 +20,6 @@ function Banner({banner}: Props) {
                 <Image className="object-cover" src={`${BASE_URL}/s3/${video?.posterUrl}`}
                        style={{objectPosition:"50% 20%"}}
                        fill
-                       placeholder="blur"
-                       blurDataURL={`${BASE_URL}/s3/${video?.posterUrl}`}
                        alt=""/>
             </div>
             <h1 className="font-bold text-2xl md:text-4xl lg:text-7xl">

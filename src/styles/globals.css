@@ -30,4 +30,13 @@
     transition hover:scale-125 group-hover:opacity-100;
   }
 
+  .input {
+    @apply w-full rounded bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none
+    focus:bg-[#454545];
+  }
+
+  .loginError {
+    @apply p-1 text-[13px] font-light text-orange-500
+  }
+
 }
