@@ -5,21 +5,23 @@ import {Inputs, LoginImage} from "@/pages/data";
 import {BASE_URL} from "@/constants/const";
 import {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
+import useAuth from "@/hooks/useAuth";
 
 function Login({
     loginImage
                }: LoginImage) {
     const [login, setLogin] = useState(false)
+    const {signIn, signUp} = useAuth()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = async (email, password) => {
+    const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
         if (login) {
-            // await signIn(email, password)
+            await signIn(email, password)
         } else {
-            // await signUp(email, password)
+            await signUp(email, password)
         }
     }
 

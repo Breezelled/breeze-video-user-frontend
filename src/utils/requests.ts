@@ -9,7 +9,9 @@ const requests = {
 
     // login page
     fetchLoginImage: `${BASE_URL}/loginImage/login`,
-    signUp: `${BASE_URL}/user`
+    signUp: `${BASE_URL}/user`,
+    signIn: `${BASE_URL}/user/login`,
+    logOut: `${BASE_URL}/user/logOut`
 }
 
 export default requests

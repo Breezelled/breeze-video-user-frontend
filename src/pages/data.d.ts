@@ -16,14 +16,3 @@ export interface Inputs {
     email: string
     password: string
 }
-
-// TODO not finish
-export interface User {
-    username: string
-    phone: string
-    nickname: string
-    intro: string
-    gender: string
-    email: string
-    // createTime:
-}

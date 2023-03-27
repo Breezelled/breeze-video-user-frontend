@@ -2,8 +2,10 @@ import {BellIcon, SearchIcon} from "@heroicons/react/solid";
 import Link from "next/link";
 import Avatar from "@/components/Avatar";
 import {useEffect, useState} from "react";
+import useAuth from "@/hooks/useAuth";
 function Header() {
-    const [scroll, setScroll] = useState(false);
+    const [scroll, setScroll] = useState(false)
+    const {logOut} = useAuth()
 
     useEffect(() => {
         const handleScroll = () => {

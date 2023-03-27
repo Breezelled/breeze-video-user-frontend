@@ -38,8 +38,11 @@ npm install
 ## Framework
 
 - [React](https://github.com/facebook/react)
+- [React Hook Form](https://github.com/react-hook-form/react-hook-form)
+- [Recoil](https://github.com/facebookexperimental/Recoil)
 - [Next.js](https://github.com/vercel/next.js)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
+- [Material UI](https://github.com/mui/material-ui)
 
 ## Author
 

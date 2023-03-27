@@ -5,6 +5,10 @@ import Banner from "@/components/Banner/Banner";
 import requests from "@/utils/requests";
 import {Props} from "@/pages/data";
 import Row from "@/components/Row/Row";
+import useAuth from "@/hooks/useAuth";
+import {useRecoilValue} from "recoil";
+import {modalState} from "@/atoms/modalAtom";
+import Modal from "@/components/Modal";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,6 +19,10 @@ export default function Home({
     actionMovies,
     comedyMovies,
                              }: Props) {
+    const {loading} = useAuth()
+    const showModal = useRecoilValue(modalState)
+
+    if (loading) return null
   return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
@@ -32,7 +40,7 @@ export default function Home({
             <Row title="Comedy" videos={comedyMovies}/>
         </section>
       </main>
-    {/*  Modal  */}
+        {showModal && <Modal/>}
     </div>
   )
 }
