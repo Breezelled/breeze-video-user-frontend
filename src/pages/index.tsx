@@ -24,7 +24,8 @@ export default function Home({
 
     if (loading) return null
   return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
+    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] 
+    ${showModal && "overflow-hidden"}`}>
       <Head>
         <title>Home - Breeze Video</title>
         <meta name="description" content="Breeze Video" />

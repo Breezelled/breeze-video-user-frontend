@@ -35,11 +35,12 @@ git clone https://github.com/Breezelled/breeze-video-user-frontend.git
 npm install
 ```
 
-## Framework
+## Framework & Library
 
 - [React](https://github.com/facebook/react)
 - [React Hook Form](https://github.com/react-hook-form/react-hook-form)
 - [Recoil](https://github.com/facebookexperimental/Recoil)
+- [React Player](https://github.com/cookpete/react-player)
 - [Next.js](https://github.com/vercel/next.js)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
 - [Material UI](https://github.com/mui/material-ui)
