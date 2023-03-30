@@ -17,7 +17,6 @@ function Banner({banner}: Props) {
         setVideo(banner[Math.floor(Math.random() * banner.length)])
     }, [banner])
 
-    console.log(`${BASE_URL}/s3/${video?.posterUrl}`)
     return (
         <div className="flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] lg:justify-end
         lg:pb-12">

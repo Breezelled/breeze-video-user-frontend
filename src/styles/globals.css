@@ -40,8 +40,22 @@
   }
 
   .modalButton {
-    @apply flex h-11 w-11 items-center justify-center rounded-full border-2 border-[gray]
+    @apply flex h-6 w-6 md:h-11 md:w-11 items-center justify-center rounded-full border-2 border-[gray]
     bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10;
+  }
+
+  .checkLi {
+    @apply flex items-center gap-x-2 text-lg
+  }
+
+  .checkIcon {
+    @apply h-7 w-7 text-[#eb6d38]
+  }
+
+  .genreBox{
+    @apply relative mx-1.5 flex h-20 bg-[#eb6d38] cursor-default w-[calc(100%/3)]
+    items-center justify-center rounded-sm font-semibold shadow
+    md:h-32 lg:mx-8;
   }
 
 }

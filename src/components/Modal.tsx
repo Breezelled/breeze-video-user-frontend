@@ -1,9 +1,8 @@
 import MuiModal from "@mui/material/Modal"
 import {useRecoilState} from "recoil";
 import {modalState, videoState} from "@/atoms/modalAtom";
-import {PlayIcon, PlusIcon, ThumbUpIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
-import {useEffect, useState} from "react";
-import {Info} from "@/data";
+import {PlusIcon, ThumbUpIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
+import {useState} from "react";
 import {BASE_URL} from "@/constants/const";
 import ReactPlayer from "react-player/lazy";
 import {FaPause, FaPlay} from "react-icons/fa";
@@ -41,35 +40,35 @@ function Modal() {
                         playing={play}
                         muted={mute}
                     />
-                    <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
+                    <div className="absolute bottom-4 md:bottom-10 flex w-full items-center justify-between md:px-10 px-5">
                         <div className="flex space-x-2">
-                            <button className="flex items-center gap-x-2 rounded bg-[gray]/70 px-8 text-xl
-                        font-bold transition hover:opacity-75">
+                            <button className="flex items-center md:gap-x-2 rounded bg-[gray]/70 px-4 text-xs
+                        font-bold transition hover:opacity-75 md:text-xl md:px-8">
                                 More Info
-                                <InformationCircleIcon className="h-7 w-7"/>
+                                <InformationCircleIcon className="h-5 w-5 md:h-7 md:w-7"/>
                             </button>
 
                             <button className="modalButton" onClick={() => setPlay(!play)}>
                                 {play? (
-                                    <FaPause className="h-5 w-5"/>
+                                    <FaPause className="h-3 w-3 md:h-5 md:w-5"/>
                                 ): (
-                                    <FaPlay className="h-5 w-5"/>
+                                    <FaPlay className="h-3 w-3 md:h-5 md:w-5"/>
                                 )}
                             </button>
 
                             <button className="modalButton">
-                                <PlusIcon className="h-7 w-7"/>
+                                <PlusIcon className="h-4 w-4 md:h-7 md:w-7"/>
                             </button>
 
                             <button className="modalButton">
-                                <ThumbUpIcon className="h-7 w-7"/>
+                                <ThumbUpIcon className="h-4 w-4 md:h-7 md:w-7"/>
                             </button>
                         </div>
                         <button className="modalButton" onClick={() => setMute(!mute)}>
                             {mute? (
-                                <VolumeOffIcon className="h-6 w-6"/>
+                                <VolumeOffIcon className="h-4 w-4 md:h-6 md:w-6"/>
                             ): (
-                                <VolumeUpIcon className="h-6 w-6"/>
+                                <VolumeUpIcon className="h-4 w-4 md:h-6 md:w-6"/>
                             )}
                         </button>
                     </div>

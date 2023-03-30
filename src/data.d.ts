@@ -1,4 +1,4 @@
-export interface Info  {
+export interface Info {
     name: string
     runtime: string
     type: string
@@ -17,4 +17,11 @@ export interface Info  {
     tag: string
     posterUrl: string
     trailerUrl: string
+}
+
+export interface Genre {
+    name: string
+    type: string
+    typeCount: number
+    posterUrl: string
 }

@@ -43,7 +43,7 @@ function Login({
                      src="/long_logo.svg"
                      width={150}
                      height={150}
-                     alt=""
+                     alt="Breeze Video"
                 />
 
                 <form

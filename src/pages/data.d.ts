@@ -1,4 +1,4 @@
-import {Info} from "@/data";
+import {Genre, Info} from "@/data";
 
 // home page
 export interface Props {
@@ -6,6 +6,7 @@ export interface Props {
     topRated: Info[]
     actionMovies: Info[]
     comedyMovies: Info[]
+    genres: Genre[]
 }
 
 // login page

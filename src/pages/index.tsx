@@ -9,6 +9,7 @@ import useAuth from "@/hooks/useAuth";
 import {useRecoilValue} from "recoil";
 import {modalState} from "@/atoms/modalAtom";
 import Modal from "@/components/Modal";
+import Interest from "@/components/Interest/Interest";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,11 +19,17 @@ export default function Home({
     topRated,
     actionMovies,
     comedyMovies,
+    genres,
                              }: Props) {
     const {loading} = useAuth()
     const showModal = useRecoilValue(modalState)
+    const interest = false
 
-    if (loading) return null
+    if (loading || interest === null) return null
+
+    if (!interest) {
+        return <Interest genres={genres}/>
+    }
   return (
     <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] 
     ${showModal && "overflow-hidden"}`}>
@@ -53,11 +60,13 @@ export async function getServerSideProps()  {
         topRated,
         actionMovies,
         comedyMovies,
+        genres,
     ] = await Promise.all([
         fetch(requests.fetchBanner).then((res) => res.json()),
         fetch(requests.fetchTopRated).then((res) => res.json()),
         fetch(requests.fetchActionMovies).then((res) => res.json()),
         fetch(requests.fetchComedyMovies).then((res) => res.json()),
+        fetch(requests.fetchTopNumType).then((res) => res.json()),
     ])
 
     return {
@@ -66,6 +75,7 @@ export async function getServerSideProps()  {
             topRated: topRated.data,
             actionMovies: actionMovies.data,
             comedyMovies: comedyMovies.data,
+            genres: genres.data,
         }
     }
 }
