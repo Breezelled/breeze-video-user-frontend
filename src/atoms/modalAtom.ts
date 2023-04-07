@@ -1,5 +1,5 @@
 import {atom} from "recoil";
-import {Info} from "@/data";
+import {Info} from "@/types/data";
 
 export const modalState = atom({
     key: 'modalState',

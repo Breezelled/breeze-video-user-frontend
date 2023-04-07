@@ -6,12 +6,16 @@ import {BASE_URL} from "@/constants/const";
 import {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
+import {getSession, signIn, signOut, useSession} from "next-auth/react";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { getCsrfToken } from "next-auth/react"
 
-function Login({
-    loginImage
-               }: LoginImage) {
+function Login({ loginImage }: LoginImage,
+               { csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [login, setLogin] = useState(false)
-    const {signIn, signUp} = useAuth()
+    const { data: session } = useSession();
+    console.log(session)
+    // const {signIn, signUp} = useAuth()
     const {
         register,
         handleSubmit,
@@ -19,9 +23,28 @@ function Login({
     } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
         if (login) {
-            await signIn(email, password)
+            await signIn(
+                "Credentials",
+                {
+                    email: email,
+                    password: password,
+                    flag: "signIn",
+                    redirect: true,
+                    callbackUrl: "/"
+                },
+            )
+            console.log(email, password)
         } else {
-            await signUp(email, password)
+            await signIn(
+                "Credentials",
+                {
+                    email: email,
+                    password: password,
+                    flag: "signUp",
+                    redirect: true,
+                    callbackUrl: "/"
+                },
+            )
         }
     }
 
@@ -50,6 +73,7 @@ function Login({
                     onSubmit={handleSubmit(onSubmit)}
                     className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0
                 md:max-w-md md:px-14">
+                    <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                     <h1 className="text-4xl font-semibold">Sign In</h1>
                     <div className="space-y-4">
                         <label className="inline-block w-full">
@@ -106,7 +130,7 @@ function Login({
 export default Login;
 
 // server side rendering
-export async function getServerSideProps()  {
+export async function getServerSideProps(context: GetServerSidePropsContext)  {
     const [
         loginImage,
     ] = await Promise.all([
@@ -116,6 +140,7 @@ export async function getServerSideProps()  {
     return {
         props: {
             loginImage: BASE_URL + '/s3/' + loginImage.data,
+            csrfToken: await getCsrfToken(context),
         }
     }
 }

@@ -21,6 +21,7 @@ function Thumbnail({video}: Props) {
                 src={`${BASE_URL}/s3/${video.posterUrl}`}
                 alt={video.name}
                 fill
+                sizes="33vw"
             />
         </div>
     );

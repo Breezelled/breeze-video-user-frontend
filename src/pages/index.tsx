@@ -10,23 +10,48 @@ import {useRecoilValue} from "recoil";
 import {modalState} from "@/atoms/modalAtom";
 import Modal from "@/components/Modal";
 import Interest from "@/components/Interest/Interest";
-
-const inter = Inter({ subsets: ['latin'] })
-
+import {INDEX_ROW_LIMIT_NUM} from "@/constants/const";
+import React, {useEffect, useState} from "react";
+import {Info} from "@/types/data";
+import {useRouter} from "next/router";
+import {useSession} from "next-auth/react";
 // home page
 export default function Home({
     banner,
     topRated,
-    actionMovies,
-    comedyMovies,
     genres,
                              }: Props) {
-    const {loading} = useAuth()
+    const { data: session } = useSession();
+    const auth = useAuth()
     const showModal = useRecoilValue(modalState)
-    const interest = false
+    const interest = session?.user?.interestType != null
+    const [userRows, setUserRows] = useState<React.ReactNode[]>([]);
 
-    if (loading || interest === null) return null
+    console.log("user:" + session?.user)
+    console.log("interest:" + interest)
+    console.log("interest:" + session?.user.interestType)
+    // dynamic fetch user interest type row
+    useEffect(() => {
+        async function fetchData() {
+            const types = session?.user?.interestType?.split('|') || [];
+            const requestsPromises = types.map(type =>
+                auth.get(`${requests.fetchUserInterestTypeMovies}${type}/${INDEX_ROW_LIMIT_NUM}`)
+                    .then(res => res.data)
+                    .then(data => data.data)
+            );
+            const results = await Promise.all(requestsPromises);
 
+            const rows = results.map((videos, i) => (
+                <Row key={types[i]} title={types[i]} videos={videos} />
+            ));
+
+            setUserRows(rows);
+        }
+        fetchData();
+    }, [session?.user]);
+
+
+    // interest is null
     if (!interest) {
         return <Interest genres={genres}/>
     }
@@ -44,8 +69,7 @@ export default function Home({
         <Banner banner={banner}/>
         <section className="md:space-y-24">
             <Row title="Top Rated" videos={topRated}/>
-            <Row title="Action" videos={actionMovies}/>
-            <Row title="Comedy" videos={comedyMovies}/>
+            {userRows}
         </section>
       </main>
         {showModal && <Modal/>}
@@ -58,14 +82,10 @@ export async function getServerSideProps()  {
     const [
         banner,
         topRated,
-        actionMovies,
-        comedyMovies,
         genres,
     ] = await Promise.all([
         fetch(requests.fetchBanner).then((res) => res.json()),
         fetch(requests.fetchTopRated).then((res) => res.json()),
-        fetch(requests.fetchActionMovies).then((res) => res.json()),
-        fetch(requests.fetchComedyMovies).then((res) => res.json()),
         fetch(requests.fetchTopNumType).then((res) => res.json()),
     ])
 
@@ -73,8 +93,6 @@ export async function getServerSideProps()  {
         props: {
             banner: banner.data,
             topRated: topRated.data,
-            actionMovies: actionMovies.data,
-            comedyMovies: comedyMovies.data,
             genres: genres.data,
         }
     }

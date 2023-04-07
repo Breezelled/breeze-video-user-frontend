@@ -1,84 +1,45 @@
-import {useRouter} from "next/router";
-import {createContext, useContext, useEffect, useMemo, useState} from "react";
-import requests from "@/utils/requests";
-import {User, AuthProviderProps, IAuth} from "@/hooks/data";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import { axiosAuth } from "@/lib/axios";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRefreshToken } from "./useRefreshToken";
 
-const AuthContext = createContext<IAuth>({
-    user: null,
-    signUp: async () => {},
-    signIn: async () => {},
-    logOut: async () => {},
-    error: null,
-    loading: false
-})
+const useAuth = () => {
+    const { data: session } = useSession();
+    const refreshToken = useRefreshToken();
 
-export const AuthProvider = ({children}: AuthProviderProps ) => {
-    const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState<User | null>(null)
-    const [error, setError] = useState(null)
-    const [initailLoading, setInitailLoading] = useState(true)
-    const router = useRouter()
+    useEffect(() => {
+        const requestIntercept = axiosAuth.interceptors.request.use(
+            (config) => {
+                if (!config.headers["Authorization"]) {
+                    config.headers["Authorization"] = `Bearer ${session?.user?.accessToken}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
 
-    // TODO Authentication Not Done Yet
-    // useEffect(() => onAuthStateChanged(auth, (user: User) => {
-    //     if (user) {
-    //         setUser(user)
-    //         setLoading(false)
-    //     } else {
-    //         setUser(null)
-    //         setLoading(true)
-    //         router.push("/login")
-    //     }
-    //     setInitailLoading(false)
-    // }), [auth]);
+        const responseIntercept = axiosAuth.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                const prevRequest = error?.config;
+                // access token expired
+                if (error?.response?.status === 401 && !prevRequest?.sent) {
+                    prevRequest.sent = true;
+                    await refreshToken();
+                    prevRequest.headers["Authorization"] = `Bearer ${session?.user?.accessToken}`;
+                    return axiosAuth(prevRequest);
+                }
+                return Promise.reject(error);
+            }
+        );
 
-    const signUp = async (email:string, password:string) => {
-        setLoading(true)
-        await fetch(requests.signUp, {
-            method: 'post',
-            body: JSON.stringify({'email': email, 'password': password}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}
-        }).then((res) => res.json()).then((data: User) => {
-            setUser(data)
-            router.push("/")
-            setLoading(false)
-        }).catch((error) => alert(error.message))
-            .finally(() => setLoading(false))
-    }
+        return () => {
+            axiosAuth.interceptors.request.eject(requestIntercept);
+            axiosAuth.interceptors.response.eject(responseIntercept);
+        };
+    }, [session, refreshToken]);
 
-    const signIn = async (email:string, password:string) => {
-        setLoading(true)
-        await fetch(requests.signIn, {
-            method: 'post',
-            body: JSON.stringify({'email': email, 'password': password}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}
-        }).then((res) => res.json()).then((data: User) => {
-            setUser(data)
-            router.push("/")
-            setLoading(false)
-        }).catch((error) => alert(error.message))
-            .finally(() => setLoading(false))
-    }
+    return axiosAuth;
+};
 
-    const logOut = async () => {
-        setLoading(true)
-        await fetch(requests.logOut)
-            .then(() => setUser(null))
-            .catch((error) => alert(error.message))
-            .finally(() => setLoading(false))
-    }
-
-    const memoValue = useMemo(() => ({
-        user, signUp, signIn, logOut, error, loading
-    }), [user, loading, error])
-
-    return <AuthContext.Provider value={memoValue}>
-        {!initailLoading && children}
-    </AuthContext.Provider>
-}
-
-export default function useAuth() {
-    return useContext(AuthContext)
-}
+export default useAuth;

@@ -1,4 +1,4 @@
-import {Genre, Info} from "@/data";
+import {Genre, Info} from "@/types/data";
 
 // home page
 export interface Props {

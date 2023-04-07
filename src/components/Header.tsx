@@ -2,10 +2,9 @@ import {BellIcon, SearchIcon} from "@heroicons/react/solid";
 import Link from "next/link";
 import Avatar from "@/components/Avatar";
 import {useEffect, useState} from "react";
-import useAuth from "@/hooks/useAuth";
+import {signOut} from "next-auth/react";
 function Header() {
     const [scroll, setScroll] = useState(false)
-    const {logOut} = useAuth()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -42,7 +41,7 @@ function Header() {
             <div className="flex items-center space-x-4">
                 <SearchIcon className="hidden h-6 w-6 sm:inline"/>
                 <BellIcon className="h-6 w-6"/>
-                <Link href="/account">
+                <Link href="" onClick={() => signOut()}>
                     <Avatar />
                 </Link>
             </div>

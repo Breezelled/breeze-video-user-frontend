@@ -1,6 +1,6 @@
 import {Props} from "@/components/Banner/data";
 import {useEffect, useState} from "react";
-import {Info} from "@/data";
+import {Info} from "@/types/data";
 import {BASE_URL} from "@/constants/const";
 import Image from 'next/image'
 import {FaPlay} from "react-icons/fa";

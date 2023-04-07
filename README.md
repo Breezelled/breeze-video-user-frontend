@@ -19,7 +19,7 @@ and it can provide visualized data analysis for administrators.
 
 ## Before getting started
 
-- node.js 14.0.0+ env
+- node.js v14.0.0+ env
 
 ## Installation
 
@@ -42,8 +42,10 @@ npm install
 - [Recoil](https://github.com/facebookexperimental/Recoil)
 - [React Player](https://github.com/cookpete/react-player)
 - [Next.js](https://github.com/vercel/next.js)
+- [Next Auth](https://github.com/nextauthjs/next-auth)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
 - [Material UI](https://github.com/mui/material-ui)
+- [Axios](https://github.com/axios/axios)
 
 ## Author
 

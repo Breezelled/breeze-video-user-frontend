@@ -8,16 +8,21 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Image from "next/image";
 import {BASE_URL} from "@/constants/const";
 import {useRecoilState} from "recoil";
-import {interestState} from "@/atoms/InterestAtom";
+import {interestState} from "@/atoms/interestAtom";
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import Checkbox from '@mui/material/Checkbox';
 import {useState} from "react";
 import Loader from "@/components/Loader";
 import requests from "@/utils/requests";
-import {User} from "@/hooks/data";
+import {useRouter} from "next/router";
+import {signOut} from "next-auth/react";
+import {useSession} from "next-auth/react";
+
 function Interest({genres}: Props) {
-    const {logOut, user} = useAuth()
+    const router = useRouter()
+    const auth = useAuth()
+    const { data: session, update } = useSession();
     const checkIconLi = (text: string) => {
         return (<li className="checkLi">
             <CheckIcon className="checkIcon"/>
@@ -25,9 +30,16 @@ function Interest({genres}: Props) {
         </li>)
     }
 
-    const saveUserPreference = () => {
-        if (!user) return
-
+    const saveUserPreference = async () => {
+        setLoading(true)
+        console.log(requests.saveInterest)
+        await auth.put(requests.saveInterest, {'email': session?.user?.email, "types": interests},
+        ).then((res) => {
+            update({interestType: res.data.data});
+            router.push("/")
+            setLoading(false)
+        }).catch((error) => console.log(error.message))
+            .finally(() => setLoading(false))
     }
 
     const [interests, setInterests] = useRecoilState(interestState)
@@ -55,7 +67,7 @@ function Interest({genres}: Props) {
                     />
                 </Link>
                 <button className="text-lg font-medium hover:underline"
-                        onClick={logOut}>
+                        onClick={() => signOut()}>
                     Log Out
                 </button>
             </header>
@@ -73,10 +85,6 @@ function Interest({genres}: Props) {
                     {checkIconLi("Tell community your thoughts in the comments.")}
                 </ul>
 
-                {/*<div className="mt-4 flex flex-col space-y-4">*/}
-                {/*    <div className="flex w-full items-center justify-center self-end md:w-3/5">*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <div className="flex w-full items-center justify-center mt-4">
                     <Box sx={{flexGrow: 1}}>
                         <Grid container spacing={{xs: 4, md: 5}}>
@@ -111,6 +119,7 @@ function Interest({genres}: Props) {
                                                src={`${BASE_URL}/s3/${genres[index].posterUrl}`}
                                                alt={genres[index].type}
                                                fill
+                                               sizes="50vw"
                                         />
                                     </div>
                                 </Grid>
@@ -124,7 +133,7 @@ function Interest({genres}: Props) {
                                         onClick={saveUserPreference}
                                         >
                                     {loading ? (
-                                        <Loader color="dark:fill-orange-300" />
+                                        <Loader color="dark:fill-[gray]" />
                                     ) : (
                                         'Confirm'
                                     )}
