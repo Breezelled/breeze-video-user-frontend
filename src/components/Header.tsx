@@ -41,7 +41,7 @@ function Header() {
             <div className="flex items-center space-x-4">
                 <SearchIcon className="hidden h-6 w-6 sm:inline"/>
                 <BellIcon className="h-6 w-6"/>
-                <Link href="" onClick={() => signOut()}>
+                <Link href="/account">
                     <Avatar />
                 </Link>
             </div>

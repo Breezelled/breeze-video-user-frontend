@@ -58,4 +58,12 @@
     md:h-32 lg:mx-8;
   }
 
+  .accountInfo {
+    @apply font-medium py-4 border-b border-white/10
+  }
+
+  .accountLink {
+    @apply col-span-2 cursor-pointer text-orange-500 hover:underline
+  }
+
 }
