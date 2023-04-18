@@ -2,7 +2,7 @@ import {BellIcon, SearchIcon} from "@heroicons/react/solid";
 import Link from "next/link";
 import Avatar from "@/components/Avatar";
 import {useEffect, useState} from "react";
-import {signOut} from "next-auth/react";
+import BasicMenu from "@/components/Header/BasicMenu";
 function Header() {
     const [scroll, setScroll] = useState(false)
 
@@ -30,6 +30,9 @@ function Header() {
                      className="cursor-container object-contain"
                      alt="Breeze Video"
                 />
+
+                <BasicMenu/>
+
                 <ul className="hidden space-x-4 md:flex">
                     <li className="headerLink">Home</li>
                     <li className="headerLink">Movies</li>
@@ -41,7 +44,7 @@ function Header() {
             <div className="flex items-center space-x-4">
                 <SearchIcon className="hidden h-6 w-6 sm:inline"/>
                 <BellIcon className="h-6 w-6"/>
-                <Link href="/account">
+                <Link href="account">
                     <Avatar />
                 </Link>
             </div>

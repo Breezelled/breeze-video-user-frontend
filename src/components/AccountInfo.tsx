@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import Loader from './Loader'
 import {useSession} from "next-auth/react";
 
 function AccountInfo() {

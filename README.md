@@ -42,6 +42,7 @@ npm install
 - [React Hook Form](https://github.com/react-hook-form/react-hook-form)
 - [Recoil](https://github.com/facebookexperimental/Recoil)
 - [React Player](https://github.com/cookpete/react-player)
+- [React Hot Toast](https://github.com/timolins/react-hot-toast)
 - [Next.js](https://github.com/vercel/next.js)
 - [Next Auth](https://github.com/nextauthjs/next-auth)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)

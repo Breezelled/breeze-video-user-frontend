@@ -1,4 +1,5 @@
 export interface Info {
+    id: number
     name: string
     runtime: string
     type: string

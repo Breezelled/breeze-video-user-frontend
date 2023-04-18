@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import Header from "@/components/Header";
+import Header from "@/components/Header/Header";
 import Banner from "@/components/Banner/Banner";
 import requests from "@/utils/requests";
 import {Props} from "@/pages/data";
 import Row from "@/components/Row/Row";
 import useAuth from "@/hooks/useAuth";
-import {useRecoilValue} from "recoil";
-import {modalState} from "@/atoms/modalAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {modalState, videoState} from "@/atoms/modalAtom";
 import Modal from "@/components/Modal";
 import Interest from "@/components/Interest/Interest";
 import {INDEX_ROW_LIMIT_NUM} from "@/constants/const";
@@ -15,6 +15,7 @@ import React, {useEffect, useState} from "react";
 import {Info} from "@/types/data";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
+import {likeState, listState} from "@/atoms/listAtom";
 // home page
 export default function Home({
     banner,
@@ -26,6 +27,9 @@ export default function Home({
     const showModal = useRecoilValue(modalState)
     const interest = session?.user?.interestType != null
     const [userRows, setUserRows] = useState<React.ReactNode[]>([]);
+    const [list, setList] = useRecoilState(listState)
+    const [like, setLike] = useRecoilState(likeState)
+    const curVideo = useRecoilValue(videoState)
 
     console.log("user:" + session?.user)
     console.log("interest:" + interest)
@@ -50,6 +54,24 @@ export default function Home({
         fetchData();
     }, [session?.user]);
 
+    useEffect(() => {
+        if (session?.user) {
+            auth.post(requests.fetchUserFavorites, {'userId': session.user.userid})
+                .then(res => {
+                    setList(res.data.data)
+                })
+        }
+    }, [session?.user])
+
+    useEffect(() => {
+        if (session?.user) {
+            auth.post(requests.fetchUserLikes, {'userId': session.user.userid})
+                .then(res => {
+                    setLike(res.data.data)
+                })
+        }
+    }, [session?.user])
+
 
     // interest is null
     if (!interest) {
@@ -59,7 +81,7 @@ export default function Home({
     <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] 
     ${showModal && "overflow-hidden"}`}>
       <Head>
-        <title>Home - Breeze Video</title>
+        <title>{curVideo?.name || 'Home'} - Breeze Video</title>
         <meta name="description" content="Breeze Video" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -70,6 +92,7 @@ export default function Home({
         <section className="md:space-y-24">
             <Row title="Top Rated" videos={topRated}/>
             {userRows}
+            {list.length > 0 && <Row title="My List" videos={list}/>}
         </section>
       </main>
         {showModal && <Modal/>}

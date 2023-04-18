@@ -1,20 +1,113 @@
 import MuiModal from "@mui/material/Modal"
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {modalState, videoState} from "@/atoms/modalAtom";
-import {PlusIcon, ThumbUpIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
-import {useState} from "react";
+import {CheckIcon, PlusIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
+import {useEffect, useState} from "react";
 import {BASE_URL} from "@/constants/const";
 import ReactPlayer from "react-player/lazy";
 import {FaPause, FaPlay} from "react-icons/fa";
 import {InformationCircleIcon, VolumeUpIcon} from "@heroicons/react/solid";
+import useAuth from "@/hooks/useAuth";
+import requests from "@/utils/requests";
+import {useSession} from "next-auth/react";
+import {toast, Toaster} from "react-hot-toast";
+import {likeState, listState} from "@/atoms/listAtom";
+import {ThumbUp, ThumbUpOutlined} from "@mui/icons-material";
 function Modal() {
     const [showModal, setShowModal] = useRecoilState(modalState)
     const [curVideo, setCurVideo] = useRecoilState(videoState)
+    const [list, setList] = useRecoilState(listState)
+    const [like, setLike] = useRecoilState(likeState)
     const [mute, setMute] = useState(true)
     const [play, setPlay] = useState(true)
+    const [add, setAdd] = useState(false)
+    const [thumb, setThumb] = useState(false)
+    const { data: session } = useSession();
+    const auth = useAuth()
+
+    const toastStyle = {
+        background: 'white',
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: '16px',
+        padding: '15px',
+        borderRadius: '9999px',
+        maxWidth: '1000px',
+    }
+
+    console.log(list)
+    console.log(add)
+    console.log(list.findIndex((result) => result.id === curVideo?.id))
+
+    useEffect(
+        () =>
+            setAdd(
+                list.findIndex((result) => result.id === curVideo?.id) != -1
+            ),
+        [list]
+    )
+
+    useEffect(
+        () =>
+            setThumb(
+                like.findIndex((result) => result.id === curVideo?.id) != -1
+            ),
+        [like]
+    )
+    const handleList = async (status: string) => {
+        if (!curVideo) return
+        if (status === "favorite") {
+            if (add) {
+                await auth.delete(requests.favorites, {data:
+                        {'userId': session?.user.userid, 'movieId': curVideo.id,}})
+
+                toast.success(`${curVideo.name} has been removed from My List.`, {
+                    duration: 5000,
+                    style: toastStyle,
+                })
+                const temp = [...list]
+                temp.splice(list.findIndex((result) => result.id === curVideo.id), 1)
+                setList(temp)
+
+            } else {
+                await auth.post(requests.favorites, {'userId': session?.user.userid, 'movieId': curVideo.id},)
+
+                toast.success(`${curVideo.name} has been added to My List.`, {
+                    duration: 5000,
+                    style: toastStyle
+                })
+                setList([curVideo, ...list])
+            }
+        } else if (status === "like") {
+            if (thumb) {
+                await auth.delete(requests.likes, {data:
+                        {'userId': session?.user.userid, 'movieId': curVideo.id,}})
+
+                toast.success(`${curVideo.name} has been unliked`, {
+                    duration: 3000,
+                    style: toastStyle
+                })
+                const temp = [...like]
+                temp.splice(list.findIndex((result) => result.id === curVideo.id), 1)
+                setLike(temp)
+
+            } else {
+                await auth.post(requests.likes, {'userId': session?.user.userid, 'movieId': curVideo.id},)
+
+                toast.success(`${curVideo.name} has been given a like.`, {
+                    duration: 3000,
+                    style: toastStyle
+                })
+                setLike([curVideo, ...like])
+            }
+        }
+
+    }
     const handleClose = () => {
         setShowModal(false)
+        setCurVideo(null)
     }
+
     return (
         <MuiModal
             open={showModal}
@@ -23,6 +116,7 @@ function Modal() {
             overflow-y-scroll rounded-md scrollbar-hide"
         >
             <>
+                <Toaster position="bottom-center"/>
                 <button onClick={handleClose}
                         className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none
                         bg-[#141414] hover:bg-[#141414]"
@@ -56,12 +150,22 @@ function Modal() {
                                 )}
                             </button>
 
-                            <button className="modalButton">
-                                <PlusIcon className="h-4 w-4 md:h-7 md:w-7"/>
+                            <button className="modalButton" onClick={() => handleList("favorite")}>
+                                {add? (
+                                    <CheckIcon className="h-4 w-4 md:h-7 md:w-7"/>
+                                ): (
+                                    <PlusIcon className="h-4 w-4 md:h-7 md:w-7"/>
+                                )}
+
                             </button>
 
-                            <button className="modalButton">
-                                <ThumbUpIcon className="h-4 w-4 md:h-7 md:w-7"/>
+                            <button className="modalButton" onClick={() => handleList("like")}>
+                                {thumb? (
+                                    <ThumbUp className="h-4 w-4 md:h-7 md:w-7 outline-orange-500"/>
+                                ): (
+                                    <ThumbUpOutlined className="h-4 w-4 md:h-7 md:w-7"/>
+                                )}
+
                             </button>
                         </div>
                         <button className="modalButton" onClick={() => setMute(!mute)}>

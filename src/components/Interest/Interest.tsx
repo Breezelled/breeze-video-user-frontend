@@ -13,7 +13,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import Checkbox from '@mui/material/Checkbox';
 import {useState} from "react";
-import Loader from "@/components/Loader";
+import Loader from "@/components/Interest/Loader";
 import requests from "@/utils/requests";
 import {useRouter} from "next/router";
 import {signOut} from "next-auth/react";
