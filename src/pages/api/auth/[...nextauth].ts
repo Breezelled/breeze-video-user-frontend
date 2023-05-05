@@ -45,8 +45,6 @@ export const authOptions: NextAuthOptions = {
                             console.log(error.response)
                         });
                 }
-                // console.log({user})
-                // console.log({flag})
 
                 if (user) {
                     return user

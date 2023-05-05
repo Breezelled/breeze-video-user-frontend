@@ -24,17 +24,18 @@ function Header() {
     return (
         <header className={`${scroll && 'bg-[#141414]'}`}>
             <div className="flex items-center space-x-2 md:space-x-10">
-                <img src="/long_logo.svg"
-                     width={100}
-                     height={100}
-                     className="cursor-container object-contain"
-                     alt="Breeze Video"
-                />
-
+                <Link href="/">
+                    <img src="/long_logo.svg"
+                         width={100}
+                         height={100}
+                         className="cursor-container object-contain"
+                         alt="Breeze Video"
+                    />
+                </Link>
                 <BasicMenu/>
 
                 <ul className="hidden space-x-4 md:flex">
-                    <li className="headerLink">Home</li>
+                    <li className="headerLink"><Link href="/">Home</Link></li>
                     <li className="headerLink">Movies</li>
                     <li className="headerLink">New & Popular</li>
                     <li className="headerLink">My List</li>
@@ -43,7 +44,6 @@ function Header() {
 
             <div className="flex items-center space-x-4">
                 <SearchIcon className="hidden h-6 w-6 sm:inline"/>
-                <BellIcon className="h-6 w-6"/>
                 <Link href="account">
                     <Avatar />
                 </Link>

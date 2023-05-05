@@ -7,11 +7,13 @@ import {FaPlay} from "react-icons/fa";
 import {InformationCircleIcon} from "@heroicons/react/solid";
 import {useRecoilState} from "recoil";
 import {modalState, videoState} from "@/atoms/modalAtom";
+import {useRouter} from "next/router";
 
 function Banner({banner}: Props) {
     const [video, setVideo] = useState<Info | null>(null)
     const [showModal, setShowModal] = useRecoilState(modalState)
     const [curVideo, setCurVideo] = useRecoilState(videoState)
+    const router = useRouter()
 
     useEffect(() => {
         setVideo(banner[Math.floor(Math.random() * banner.length)])
@@ -33,22 +35,22 @@ function Banner({banner}: Props) {
                 {video?.intro}
             </p>
             <div className="flex space-x-3">
-                <button className="bannerButton bg-white text-black">
+                <button className="bannerButton bg-white text-black"
+                        onClick={() => {
+                    setCurVideo(video)
+                    setShowModal(true)
+                }}>
                     <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7"/>Play
                 </button>
                 <button className="bannerButton bg-[gray]/70"
                         onClick={() => {
                             setCurVideo(video)
-                            setShowModal(true)
-                        }}
-                >
+                            router.push("/detail")
+                        }}>
                     More Info <InformationCircleIcon className="h-5 w-5 md:h-8 md:w-8"/>
                 </button>
             </div>
         </div>
     );
 }
-
-
-
 export default Banner;

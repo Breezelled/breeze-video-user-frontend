@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {modalState, videoState} from "@/atoms/modalAtom";
 import {CheckIcon, PlusIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
 import {useEffect, useState} from "react";
-import {BASE_URL} from "@/constants/const";
+import {BASE_URL, toastStyle} from "@/constants/const";
 import ReactPlayer from "react-player/lazy";
 import {FaPause, FaPlay} from "react-icons/fa";
 import {InformationCircleIcon, VolumeUpIcon} from "@heroicons/react/solid";
@@ -13,6 +13,7 @@ import {useSession} from "next-auth/react";
 import {toast, Toaster} from "react-hot-toast";
 import {likeState, listState} from "@/atoms/listAtom";
 import {ThumbUp, ThumbUpOutlined} from "@mui/icons-material";
+import {useRouter} from "next/router";
 function Modal() {
     const [showModal, setShowModal] = useRecoilState(modalState)
     const [curVideo, setCurVideo] = useRecoilState(videoState)
@@ -23,17 +24,8 @@ function Modal() {
     const [add, setAdd] = useState(false)
     const [thumb, setThumb] = useState(false)
     const { data: session } = useSession();
+    const router = useRouter()
     const auth = useAuth()
-
-    const toastStyle = {
-        background: 'white',
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: '16px',
-        padding: '15px',
-        borderRadius: '9999px',
-        maxWidth: '1000px',
-    }
 
     console.log(list)
     console.log(add)
@@ -61,44 +53,48 @@ function Modal() {
                 await auth.delete(requests.favorites, {data:
                         {'userId': session?.user.userid, 'movieId': curVideo.id,}})
 
-                toast.success(`${curVideo.name} has been removed from My List.`, {
-                    duration: 5000,
-                    style: toastStyle,
-                })
                 const temp = [...list]
                 temp.splice(list.findIndex((result) => result.id === curVideo.id), 1)
                 setList(temp)
 
+                toast.success(`${curVideo.name} has been removed from My List.`, {
+                    duration: 5000,
+                    style: toastStyle,
+                })
+
             } else {
                 await auth.post(requests.favorites, {'userId': session?.user.userid, 'movieId': curVideo.id},)
+
+                setList([curVideo, ...list])
 
                 toast.success(`${curVideo.name} has been added to My List.`, {
                     duration: 5000,
                     style: toastStyle
                 })
-                setList([curVideo, ...list])
             }
         } else if (status === "like") {
             if (thumb) {
                 await auth.delete(requests.likes, {data:
                         {'userId': session?.user.userid, 'movieId': curVideo.id,}})
 
-                toast.success(`${curVideo.name} has been unliked`, {
-                    duration: 3000,
-                    style: toastStyle
-                })
                 const temp = [...like]
                 temp.splice(list.findIndex((result) => result.id === curVideo.id), 1)
                 setLike(temp)
 
+                toast.success(`${curVideo.name} has been unliked`, {
+                    duration: 3000,
+                    style: toastStyle
+                })
+
             } else {
                 await auth.post(requests.likes, {'userId': session?.user.userid, 'movieId': curVideo.id},)
+
+                setLike([curVideo, ...like])
 
                 toast.success(`${curVideo.name} has been given a like.`, {
                     duration: 3000,
                     style: toastStyle
                 })
-                setLike([curVideo, ...like])
             }
         }
 
@@ -137,7 +133,10 @@ function Modal() {
                     <div className="absolute bottom-4 md:bottom-10 flex w-full items-center justify-between md:px-10 px-5">
                         <div className="flex space-x-2">
                             <button className="flex items-center md:gap-x-2 rounded bg-[gray]/70 px-4 text-xs
-                        font-bold transition hover:opacity-75 md:text-xl md:px-8">
+                                               font-bold transition hover:opacity-75 md:text-xl md:px-8"
+                                    onClick={() => {
+                                router.push("/detail")
+                            }}>
                                 More Info
                                 <InformationCircleIcon className="h-5 w-5 md:h-7 md:w-7"/>
                             </button>

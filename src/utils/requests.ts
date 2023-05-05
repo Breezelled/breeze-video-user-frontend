@@ -12,6 +12,8 @@ const requests = {
     fetchUserFavorites: `/favorites/user`,
     likes: `/likes`,
     fetchUserLikes: `/likes/user`,
+    fetchPersonalizedRecommendation: '/info/recommend',
+    comments: `/reviews/`,
 
     // login page
     fetchLoginImage: `${BASE_URL}/loginImage/login`,

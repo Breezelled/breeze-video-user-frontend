@@ -48,6 +48,8 @@ function Interest({genres}: Props) {
 
     console.log(interests)
     console.log(disable)
+    console.log(session?.user)
+
     return (
         <div>
             <Head>
@@ -112,7 +114,8 @@ function Interest({genres}: Props) {
                                                   className="absolute transform right-1"
                                         />
                                         <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2
-                                                -translate-y-1/2 hover:scale-110 cursor-default transition duration-200">
+                                                       -translate-y-1/2 hover:scale-110 cursor-default
+                                                       transition duration-200">
                                             {genres[index].type}
                                         </h1>
                                         <Image className="object-cover opacity-60 -z-50 rounded"
