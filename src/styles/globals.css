@@ -3,83 +3,121 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent
-    !scrollbar-thumb-orange-500 overflow-x-hidden;
-  }
+    body {
+        @apply bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent
+        !scrollbar-thumb-orange-500 overflow-x-hidden;
+    }
 
-  header {
-    @apply fixed top-0 z-50 flex w-full items-center justify-between
-    px-4 py-4 transition-all lg:px-10 lg:px-6;
-  }
+    header {
+        @apply fixed top-0 z-50 flex w-full items-center justify-between
+        px-4 py-4 transition-all lg:px-10 lg:px-6;
+    }
 }
 
 @layer components {
-  .headerLink {
-    @apply cursor-pointer text-sm text-[#e5e5e5] transition duration-[.4s]
-    hover:text-[#E8906B];
-  }
+    .headerLink {
+        @apply cursor-pointer text-sm text-[#e5e5e5] transition duration-[.4s]
+        hover:text-[#E8906B];
+    }
 
-  .bannerButton {
-    @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition
-    hover:opacity-75 md:py-2.5 md:px-8 md:text-xl;
-  }
+    .bannerButton {
+        @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition
+        hover:opacity-75 md:py-2.5 md:px-8 md:text-xl;
+    }
 
-  .rowIcon {
-    @apply absolute top-0 bottom-0 z-40 m-auto h-9 w-9 cursor-pointer opacity-0
-    transition hover:scale-125 group-hover:opacity-100;
-  }
+    .rowIcon {
+        @apply absolute top-0 bottom-0 z-40 m-auto h-9 w-9 cursor-pointer opacity-0
+        transition hover:scale-125 group-hover:opacity-100;
+    }
 
-  .input {
-    @apply w-full rounded bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none
-    focus:bg-[#454545];
-  }
+    .input {
+        @apply w-full rounded bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none
+        focus:bg-[#454545];
+    }
 
-  .loginError {
-    @apply p-1 text-[13px] font-light text-orange-500;
-  }
+    .loginError {
+        @apply p-1 text-[13px] font-light text-orange-500;
+    }
 
-  .modalButton {
-    @apply flex h-6 w-6 md:h-11 md:w-11 items-center justify-center rounded-full border-2 border-[gray]
-    bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10;
-  }
+    .modalButton {
+        @apply flex h-6 w-6 md:h-11 md:w-11 items-center justify-center rounded-full border-2 border-[gray]
+        bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10;
+    }
 
-  .checkLi {
-    @apply flex items-center gap-x-2 text-lg
-  }
+    .checkLi {
+        @apply flex items-center gap-x-2 text-lg
+    }
 
-  .checkIcon {
-    @apply h-7 w-7 text-[#eb6d38]
-  }
+    .checkIcon {
+        @apply h-7 w-7 text-[#eb6d38]
+    }
 
-  .genreBox{
-    @apply relative mx-1.5 flex h-20 bg-[#eb6d38] cursor-default w-[calc(100%/3)]
-    items-center justify-center rounded-sm font-semibold shadow
-    md:h-32 lg:mx-8;
-  }
+    .genreBox {
+        @apply relative mx-1.5 flex h-20 bg-[#eb6d38] cursor-default w-[calc(100%/3)]
+        items-center justify-center rounded-sm font-semibold shadow
+        md:h-32 lg:mx-8;
+    }
 
-  .accountInfo {
-    @apply font-medium py-4 border-b border-white/10
-  }
+    .accountInfo {
+        @apply font-medium py-4 border-b border-white/10
+    }
 
-  .accountLink {
-    @apply col-span-2 cursor-pointer text-orange-500 hover:underline
-  }
+    .accountLink {
+        @apply col-span-2 cursor-pointer text-orange-500 hover:underline
+    }
 
-  .menu {
-    @apply md:hidden;
-  }
+    .menu {
+        @apply md:hidden;
+    }
 
-  .menu .MuiPaper-root {
-    @apply !absolute !left-0 !rounded-none !border !border-[gray] !bg-black !text-white;
-  }
+    .menu .MuiPaper-root {
+        @apply !absolute !left-0 !rounded-none !border !border-[gray] !bg-black !text-white;
+    }
 
-  .menu .MuiList-root {
-    @apply !p-0;
-  }
+    .menu .MuiList-root {
+        @apply !p-0;
+    }
 
-  .menu .MuiMenuItem-root {
-    @apply !block !w-72 !py-3.5 !text-center !text-sm !font-light !text-[#b3b3b3] !transition !duration-200 first:cursor-default first:!font-normal first:!text-white hover:!bg-[#11100F];
-  }
+    .menu .MuiMenuItem-root {
+        @apply !block !w-72 !py-3.5 !text-center !text-sm !font-light !text-[#b3b3b3] !transition !duration-200 first:cursor-default first:!font-normal first:!text-white hover:!bg-[#11100F];
+    }
+
+    .search-box{
+        @apply relative h-12 w-12 rounded-[50%];
+        box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .search-box.active{
+        @apply lg:w-[350px] md:w-[220px] w-[180px]
+    }
+    .search-box input{
+        @apply w-full h-full border-none rounded-full bg-white text-[#eb6d38] outline-none pr-10 pl-4 text-sm md:text-lg
+        opacity-0;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .search-box input.active{
+        @apply opacity-100
+    }
+    .search-box input::placeholder{
+        @apply text-[#a6a6a6]
+    }
+    .search-box .search-icon{
+        @apply absolute top-1/2 right-[0] -translate-y-[50%] h-10 w-10 bg-white rounded-[50%] text-center leading-10
+        text-lg text-[#eb6d38] cursor-pointer z-[1];
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .search-box .search-icon.active{
+        @apply right-1 h-10 leading-10 w-10 text-lg bg-[#eb6d38] -translate-y-[50%] rotate-[360deg]
+        text-white;
+    }
+    .search-box .cancel-icon{
+        @apply absolute right-4 top-1/2 -translate-y-[50%] text-sm cursor-pointer;
+        transition: all 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .search-box .cancel-icon.active{
+        @apply -right-8 -translate-y-[50%] rotate-[360deg];
+    }
 
 }
+
+

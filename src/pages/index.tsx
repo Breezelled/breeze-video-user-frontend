@@ -55,9 +55,10 @@ export default function Home({
 
     useEffect(() => {
         if (session?.user) {
-            auth.post(requests.fetchUserFavorites, {'userId': session.user.userid})
+            auth.post(requests.fetchUserFavorites + `?pageNum=1&pageSize=${INDEX_ROW_LIMIT_NUM}`,
+                {'userId': session.user.userid})
                 .then(res => {
-                    setList(res.data.data)
+                    setList(res.data.data.records)
                 })
         }
     }, [session?.user])

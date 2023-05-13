@@ -13,6 +13,12 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Check from '@mui/icons-material/Check';
 import {useState} from "react";
 import {useSession} from "next-auth/react";
+import useAuth from "@/hooks/useAuth";
+import requests from "@/utils/requests";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {videoState} from "@/atoms/modalAtom";
+import {commentState} from "@/atoms/commentAtom";
+import {Comment} from "@/components/Comment/data";
 
 function CommentBox() {
     const [italic, setItalic] = useState(false);
@@ -20,6 +26,9 @@ function CommentBox() {
     const [text, setText] = useState("")
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const {data: session} = useSession();
+    const auth = useAuth()
+    const curVideo = useRecoilValue(videoState)
+    const [comments, setComments] = useRecoilState(commentState)
 
     return (
         <div>
@@ -92,7 +101,29 @@ function CommentBox() {
                                 <FormatItalic/>
                             </IconButton>
                             <Button className="appearance-none hover:bg-transparent text-black bg-[#fff4e5]"
-                                    sx={{ml: 'auto'}}>
+                                    sx={{ml: 'auto'}}
+                                    onClick={() => {
+                                        auth.post(requests.comments,
+                                            {
+                                                'movieId': curVideo?.id,
+                                                'author': session?.user.username,
+                                                'content': text,
+                                                'ipArea': session?.user.lastLoginArea
+                                            })
+                                            .then(res => {
+                                                setComments([
+                                                    {
+                                                        id: res.data.data,
+                                                        movieId: curVideo!.id,
+                                                        author: session!.user.username,
+                                                        content: text
+                                                    },
+                                                    ...comments
+                                                ])
+                                                setText("")
+                                            })
+                                    }}
+                            >
                                 Send
                             </Button>
                         </Box>

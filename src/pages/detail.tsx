@@ -1,4 +1,3 @@
-import MuiModal from "@mui/material/Modal"
 import {useRecoilState, useRecoilValue} from "recoil";
 import {modalState, videoState} from "@/atoms/modalAtom";
 import {CheckIcon, PlusIcon, VolumeOffIcon, XIcon} from "@heroicons/react/outline";
@@ -6,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {BASE_URL, toastStyle} from "@/constants/const";
 import ReactPlayer from "react-player/lazy";
 import {FaPause, FaPlay} from "react-icons/fa";
-import {InformationCircleIcon, VolumeUpIcon} from "@heroicons/react/solid";
+import {VolumeUpIcon} from "@heroicons/react/solid";
 import useAuth from "@/hooks/useAuth";
 import requests from "@/utils/requests";
 import {useSession} from "next-auth/react";
@@ -18,9 +17,6 @@ import Header from "@/components/Header/Header";
 import Image from "next/image";
 import Comment from "@/components/Comment/Comment";
 import CommentBox from "@/components/Comment/CommentBox";
-import Interest from "@/components/Interest/Interest";
-import {useRouter} from "next/router";
-import {router} from "next/client";
 
 function Detail() {
     const [curVideo, setCurVideo] = useRecoilState(videoState)

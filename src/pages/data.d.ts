@@ -17,3 +17,11 @@ export interface Inputs {
     email: string
     password: string
 }
+
+export interface Pagination {
+    url: string
+    total: number
+    size: number
+    current: number
+    page: number
+}

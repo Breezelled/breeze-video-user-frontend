@@ -13,3 +13,5 @@ export const toastStyle = {
     borderRadius: '9999px',
     maxWidth: '1000px',
 }
+
+export const DEFAULT_PAGINATION_SIZE = 10

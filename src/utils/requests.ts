@@ -8,12 +8,15 @@ const requests = {
     fetchActionMovies: `${BASE_URL}/info/topRatedAndNumByType/Action/${INDEX_ROW_LIMIT_NUM}`,
     fetchComedyMovies: `${BASE_URL}/info/topRatedAndNumByType/Comedy/${INDEX_ROW_LIMIT_NUM}`,
     fetchTopNumType: `${BASE_URL}/info/topNumType/${INTEREST_TYPE_COUNT_LIMIT_NUM}`,
+    fetchPageMovies: `/info/page`,
+    fetchPageTopRated: `/info/pageTopRated`,
     favorites: `/favorites`,
     fetchUserFavorites: `/favorites/user`,
     likes: `/likes`,
     fetchUserLikes: `/likes/user`,
     fetchPersonalizedRecommendation: '/info/recommend',
-    comments: `/reviews/`,
+    comments: `/reviews`,
+    fetchSearchResult: '/info/pageByWebSearch',
 
     // login page
     fetchLoginImage: `${BASE_URL}/loginImage/login`,
