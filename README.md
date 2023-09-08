@@ -14,7 +14,7 @@ and it can provide visualized data analysis for administrators.
 |------------------------------------------------------------------------------------------|-------------------------------------------------------------|
 | [Breeze Video User Backend](https://github.com/Breezelled/breeze-video-user-backend)     | Spring Boot, Mybatis, Redis, OAuth2.0 etc.                  |
 | [Breeze Video Admin Frontend](https://github.com/Breezelled/breeze-video-admin-frontend) | React, Ant Design, Umi.js, etc.                             |
-| [Breeze Video Admin Backend](https://github.com/Breezelled/breeze-video-admin-backend)   | Flask, BS4, Pandas, NumPym, Sklearn, Selenium, You-Get etc. |
+| [Breeze Video Admin Backend](https://github.com/Breezelled/breeze-video-admin-backend)   | Flask, BS4, Pandas, NumPy, Sklearn, Selenium, You-Get etc. |
 | [Breeze Video Android](https://github.com/Breezelled/breeze-video-android)               | Glide, Retrofit, AgentWeb, GSYVideoPlayer, etc.             |
 | [Breeze Video Deep Learning](https://github.com/Breezelled/breeze-video-deep-learning)   | TensorFlow, Keras, BERT, EasyRec, etc.                      |
 
